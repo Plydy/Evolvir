@@ -10,32 +10,41 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float rotationSpeed = 12f;
     
     private CharacterController controller;
-    private PlayerInputActions input;
-    private Vector2 moveInput;
-
+    
+    [SerializeField] private PlayerInputHandler inputHandler;
+    
+    [SerializeField] private CameraController cameraController;
+    
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
         
-        input = new PlayerInputActions();
-        
-        input.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
-        input.Player.Move.canceled += ctx => moveInput = Vector2.zero;
+        if (inputHandler == null)
+        {
+            Debug.LogError("PlayerInputHandler is not assigned", this);
+        }
     }
-
-    private void OnEnable()
-    {
-        input.Enable();
-    }
-
-    private void OnDisable()
-    {
-        input.Disable();
-    }
-
+    
     private void Update()
     {
-        Vector3 direction = new Vector3(moveInput.x, 0f, moveInput.y);
+        if (inputHandler == null)
+            return;
+        
+        Vector2 moveInput = inputHandler.Move;
+        
+        Transform cameraPivot = cameraController.Pivot;
+        
+        Vector3 forward = cameraPivot.forward;
+        Vector3 right = cameraPivot.right;
+        
+        forward.y = 0f;
+        right.y = 0f;
+        
+        forward.Normalize();
+        right.Normalize();
+        
+        Vector3 direction =
+            forward * moveInput.y + right * moveInput.x;
 
         if (direction.sqrMagnitude > 0.01f)
         {
