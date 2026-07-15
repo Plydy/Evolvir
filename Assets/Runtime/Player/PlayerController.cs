@@ -12,8 +12,9 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     
     [SerializeField] private PlayerInputHandler inputHandler;
-    
     [SerializeField] private CameraController cameraController;
+
+    public bool CanMove { get; set; } = true;
     
     private void Awake()
     {
@@ -27,6 +28,9 @@ public class PlayerController : MonoBehaviour
     
     private void Update()
     {
+        if (!CanMove)
+            return;
+        
         if (inputHandler == null)
             return;
         

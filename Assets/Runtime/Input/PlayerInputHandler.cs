@@ -7,6 +7,7 @@ public class PlayerInputHandler : MonoBehaviour
     public Vector2 Look { get; private set; }
     
     public bool CameraRotate { get; private set; }
+    public event System.Action OnDash;
 
     private PlayerInputActions input;
     
@@ -17,6 +18,7 @@ public class PlayerInputHandler : MonoBehaviour
         BindMovement();
         BindLook();
         BindCamera();
+        BindDash();
     }
 
     private void BindMovement()
@@ -35,6 +37,14 @@ public class PlayerInputHandler : MonoBehaviour
     {
         input.Player.CameraRotate.performed += _ => CameraRotate = true;
         input.Player.CameraRotate.canceled += _ => CameraRotate = false;
+    }
+
+    private void BindDash()
+    {
+        input.Player.Dash.performed += _ =>
+        {
+            OnDash?.Invoke();
+        };
     }
 
     private void OnEnable()
