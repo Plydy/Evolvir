@@ -541,6 +541,7 @@ GameObject:
   - component: {fileID: 671593963}
   - component: {fileID: 671593968}
   - component: {fileID: 671593969}
+  - component: {fileID: 671593970}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -703,6 +704,19 @@ MonoBehaviour:
   dashCooldown: 1
   inputHandler: {fileID: 728905363}
   cameraController: {fileID: 1992163559}
+--- !u!114 &671593970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671593962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c214e0cc9b933142bec2daff8697d2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
+  maxHealth: 100
 --- !u!1 &728905361
 GameObject:
   m_ObjectHideFlags: 0
@@ -987,6 +1001,7 @@ GameObject:
   - component: {fileID: 1992163559}
   - component: {fileID: 1992163558}
   - component: {fileID: 1992163557}
+  - component: {fileID: 1992163560}
   m_Layer: 0
   m_Name: CameraRig
   m_TagString: Untagged
@@ -1052,6 +1067,24 @@ MonoBehaviour:
   target: {fileID: 245655234}
   pivot: {fileID: 1861221404}
   mainCamera: {fileID: 330585545}
+--- !u!114 &1992163560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992163555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2af892d25aebace46944e007d07d3a3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraZoom
+  zoomSpeed: 3
+  minDistance: 6
+  maxDistance: 14
+  zoomSmooth: 20
+  mainCamera: {fileID: 330585545}
+  inputHandler: {fileID: 728905363}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

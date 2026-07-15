@@ -5,6 +5,7 @@ public class PlayerInputHandler : MonoBehaviour
 {
     public Vector2 Move { get; private set; }
     public Vector2 Look { get; private set; }
+    public float Zoom { get; private set; }
     
     public bool CameraRotate { get; private set; }
     public event System.Action OnDash;
@@ -14,11 +15,17 @@ public class PlayerInputHandler : MonoBehaviour
     private void Awake()
     {
         input = new PlayerInputActions();
+        
+        BindInputActions();
+    }
 
+    private void BindInputActions()
+    {
         BindMovement();
         BindLook();
         BindCamera();
         BindDash();
+        BindZoom();
     }
 
     private void BindMovement()
@@ -37,6 +44,19 @@ public class PlayerInputHandler : MonoBehaviour
     {
         input.Player.CameraRotate.performed += _ => CameraRotate = true;
         input.Player.CameraRotate.canceled += _ => CameraRotate = false;
+    }
+
+    private void BindZoom()
+    {
+        input.Player.Zoom.performed += ctx =>
+        {
+            Zoom = ctx.ReadValue<float>();
+        };
+        
+        input.Player.Zoom.canceled += _ =>
+        {
+            Zoom = 0f;
+        };
     }
 
     private void BindDash()
