@@ -15,6 +15,7 @@ public class PlayerDash : MonoBehaviour
 
     private CharacterController controller;
     private PlayerController playerController;
+    private HealthComponent health;
     
     private bool isDashing;
     private bool canDash = true;
@@ -23,6 +24,7 @@ public class PlayerDash : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         playerController = GetComponent<PlayerController>();
+        health = GetComponent<HealthComponent>();
         canDash = true;
         
         if (inputHandler == null)
@@ -36,16 +38,23 @@ public class PlayerDash : MonoBehaviour
     {
         if (inputHandler != null)
             inputHandler.OnDash += Dash;
+
+        health.OnDeath += HandleDeath;
     }
 
     private void OnDisable()
     {
         if (inputHandler != null)
             inputHandler.OnDash -= Dash;
+
+        health.OnDeath -= HandleDeath;
     }
 
     private void Dash()
     {
+        if (health.IsDead)
+            return;
+        
         if (inputHandler.Move == Vector2.zero)
             return;
         
@@ -76,13 +85,23 @@ public class PlayerDash : MonoBehaviour
 
             yield return null;
         }
-        playerController.CanMove = true;
+        
+        if (!health.IsDead)
+            playerController.CanMove = true;
         
         isDashing = false;
         
         yield return new WaitForSeconds(dashCooldown);
         
         canDash = true;
+    }
+    
+    private void HandleDeath()
+    {
+        StopAllCoroutines();
+        isDashing = false;
+        canDash = false;
+        playerController.CanMove = false;
     }
 
     private void OnDrawGizmosSelected()

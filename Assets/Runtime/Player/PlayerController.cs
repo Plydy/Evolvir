@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float rotationSpeed = 12f;
     
     private CharacterController controller;
+    private HealthComponent health;
     
     [SerializeField] private PlayerInputHandler inputHandler;
     [SerializeField] private CameraController cameraController;
@@ -19,11 +20,27 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
+        health = GetComponent<HealthComponent>();
         
         if (inputHandler == null)
         {
             Debug.LogError("PlayerInputHandler is not assigned", this);
         }
+    }
+    
+    private void OnEnable()
+    {
+        health.OnDeath += HandleDeath;
+    }
+
+    private void OnDisable()
+    {
+        health.OnDeath -= HandleDeath;
+    }
+
+    private void HandleDeath()
+    {
+        CanMove = false;
     }
     
     private void Update()

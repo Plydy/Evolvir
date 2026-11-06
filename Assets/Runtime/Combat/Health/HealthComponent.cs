@@ -8,6 +8,8 @@ public class HealthComponent : MonoBehaviour
 
     public float CurrentHealth { get; private set; }
     
+    public int MaxHealth => maxHealth;
+    
     public bool IsDead => CurrentHealth <= 0;
    
     public event Action<float> OnHealthChanged;
@@ -20,7 +22,7 @@ public class HealthComponent : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (CurrentHealth <= 0)
+        if (CurrentHealth <= 0 || damage <= 0f)
             return;
         
         CurrentHealth -= damage;
@@ -51,7 +53,7 @@ public class HealthComponent : MonoBehaviour
 
     public void Heal(float amount)
     {
-        if (CurrentHealth <= 0)
+        if (CurrentHealth <= 0 || amount <= 0f)
             return;
         
         CurrentHealth += amount;
